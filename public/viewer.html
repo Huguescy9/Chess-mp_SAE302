@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Visionneuse PGN</title>
+
+  <!-- Feuilles de style -->
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="board.css" />
+  <link rel="stylesheet" href="viewer.css" />
+
+  <!-- Police -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div>Visionneuse PGN</div>
+    <a href="index.html">Retour au Lobby</a>
+  </header>
+
+  <main>
+    <!-- =========================
+         Colonne gauche : échiquier + commandes
+    ========================== -->
+    <div class="board-column">
+      <div id="board"></div>
+
+      <!-- Compteur coups -->
+      <p id="move-counter">Coup 0 / 0</p>
+
+      <!-- Boutons de navigation -->
+      <div id="controls">
+        <button id="btn-first">⏮️ Début</button>
+        <button id="btn-prev">◀️ Préc.</button>
+        <button id="btn-next">▶️ Suiv.</button>
+        <button id="btn-last">⏭️ Fin</button>
+      </div>
+
+      <!-- Zone chargement PGN -->
+      <div id="pgn-zone">
+        <textarea id="pgn-input" placeholder="Collez ici le contenu d'un fichier .pgn..."></textarea>
+        
+        <!-- Container pour les deux boutons -->
+        <div id="pgn-buttons">
+          <label for="pgn-file" id="pgn-label">📂 Choisir un fichier PGN</label>
+          <input type="file" id="pgn-file" accept=".pgn">
+          <button id="btn-load">📥 Charger PGN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         Colonne droite : historique
+    ========================== -->
+    <div class="history-column">
+      <div class="card">
+        <h3>Historique des coups</h3>
+        <table id="log">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Blancs</th>
+              <th>Noirs</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Librairie Chess.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+  <!-- =========================
+       Script Visionneuse
+  ========================== -->
+  <script>
+  const game = new Chess();
+  let moves = [];
+  let index = 0;
+  let lastMoveSquares = []; // ✅ cases du dernier coup
+
+  const boardEl = document.getElementById("board");
+  const moveLog = document.querySelector("#log tbody");
+  const moveCounter = document.getElementById("move-counter");
+  const btnFirst = document.getElementById("btn-first");
+  const btnPrev = document.getElementById("btn-prev");
+  const btnNext = document.getElementById("btn-next");
+  const btnLast = document.getElementById("btn-last");
+
+  const pgnInput = document.getElementById("pgn-input");
+  const pgnFile = document.getElementById("pgn-file");
+
+  function pieceChar(p) {
+    const PIECES = { p:"♟", r:"♜", n:"♞", b:"♝", q:"♛", k:"♚", P:"♙", R:"♖", N:"♘", B:"♗", Q:"♕", K:"♔" };
+    return p ? PIECES[p] || "" : "";
+  }
+
+  function coordToSquare(x, y) {
+    return String.fromCharCode(97 + x) + (8 - y);
+  }
+
+  function render() {
+    boardEl.innerHTML = "";
+    const fenRows = game.fen().split(" ")[0].split("/");
+    for (let y = 0; y < 8; y++) {
+      let x = 0;
+      for (const ch of fenRows[y]) {
+        if (/\d/.test(ch)) {
+          const n = parseInt(ch, 10);
+          for (let i = 0; i < n; i++) mountSquare(x++, y, "");
+        } else {
+          mountSquare(x++, y, ch);
+        }
+      }
+    }
+    updateLog();
+    updateCounter();
+    updateButtons();
+  }
+
+  function mountSquare(x, y, piece) {
+    const div = document.createElement("div");
+    div.className = "square " + ((x + y) % 2 === 0 ? "light" : "dark");
+    const sq = coordToSquare(x, y);
+    div.dataset.square = sq;
+    div.textContent = pieceChar(piece);
+
+    // ✅ surlignage du dernier coup
+    if (lastMoveSquares.includes(sq)) {
+      div.classList.add("last-move");
+    }
+
+    if (y === 7) { div.classList.add("file"); div.dataset.file = String.fromCharCode(97 + x); }
+    if (x === 0) { div.classList.add("rank"); div.dataset.rank = String(8 - y); }
+    boardEl.appendChild(div);
+  }
+
+  function loadPGN(pgn) {
+    const tmpGame = new Chess();
+    if (!tmpGame.load_pgn(pgn)) { alert("PGN invalide"); return; }
+    moves = tmpGame.history({ verbose: true });
+    index = 0;
+    game.reset();
+    lastMoveSquares = [];
+    render();
+  }
+
+  function updateBoard() {
+    game.reset();
+    lastMoveSquares = [];
+    for (let i = 0; i < index; i++) {
+      const move = game.move(moves[i]);
+      if (i === index - 1 && move) {
+        lastMoveSquares = [move.from, move.to]; // ✅ on garde from/to
+      }
+    }
+    render();
+  }
+
+  function updateLog() {
+    moveLog.innerHTML = "";
+    for (let i = 0; i < moves.length; i += 2) {
+      const moveNumber = Math.floor(i / 2) + 1;
+      const whiteMove = moves[i] ? moves[i].san : "";
+      const blackMove = moves[i + 1] ? moves[i + 1].san : "";
+      const tr = document.createElement("tr");
+      tr.style.textAlign = "center";
+      tr.innerHTML = `<td>${moveNumber}</td><td>${whiteMove}</td><td>${blackMove}</td>`;
+      moveLog.appendChild(tr);
+    }
+  }
+
+  function updateCounter() {
+    moveCounter.textContent = `Coup ${index} / ${moves.length}`;
+  }
+
+  function updateButtons() {
+    btnFirst.disabled = index === 0;
+    btnPrev.disabled = index === 0;
+    btnNext.disabled = index === moves.length;
+    btnLast.disabled = index === moves.length;
+  }
+
+  // PGN chargement
+  document.getElementById("btn-load").addEventListener("click", () => {
+    const pgn = pgnInput.value.trim();
+    if (pgn) loadPGN(pgn);
+  });
+  pgnFile.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => { pgnInput.value = reader.result; loadPGN(reader.result); };
+    reader.readAsText(file);
+  });
+
+  // Navigation
+  btnFirst.addEventListener("click", () => { index = 0; updateBoard(); });
+  btnPrev.addEventListener("click", () => { if(index>0) index--; updateBoard(); });
+  btnNext.addEventListener("click", () => { if(index<moves.length) index++; updateBoard(); });
+  btnLast.addEventListener("click", () => { index = moves.length; updateBoard(); });
+
+  render();
+  </script>
+
+</body>
+</html>

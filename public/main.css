@@ -1,0 +1,266 @@
+/* =========================
+   Variables globales
+========================= */
+:root {
+  /* Palette de couleurs marron */
+  --bg-light: #e8dfd5;
+  --bg-medium: #d4c4b0;
+  --primary: #9b7e5c;
+  --primary-dark: #7a6348;
+  --primary-light: #b39570;
+  --accent: #8b7355;
+  --border: #a89478;
+  
+  /* Couleurs échiquier */
+  --square-light: #f0dcc8;
+  --square-dark: #9b7e5c;
+  
+  /* Texte */
+  --text-primary: #3d3226;
+  --text-secondary: #4d4237;
+  --text-light: #ffffff;
+  
+  /* Effets */
+  --shadow-sm: 0 2px 12px rgba(0,0,0,0.15);
+  --shadow-md: 0 3px 15px rgba(0,0,0,0.1);
+  --shadow-lg: 0 5px 20px rgba(0,0,0,0.15);
+  --shadow-xl: 0 8px 30px rgba(0,0,0,0.2);
+  
+  /* Transitions */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.2s;
+  --transition-slow: 0.25s;
+}
+
+/* =========================
+   Base
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-medium) 100%);
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* =========================
+   Header
+========================= */
+header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--text-light);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+header a {
+  color: var(--bg-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity var(--transition-slow);
+}
+
+header a:hover {
+  opacity: 0.8;
+}
+
+/* =========================
+   Layout principal
+========================= */
+main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 24px auto;
+  padding: 0 20px;
+}
+
+/* =========================
+   Cards
+========================= */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+/* =========================
+   Boutons
+========================= */
+button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  color: var(--text-light);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-normal), transform var(--transition-normal), box-shadow var(--transition-normal);
+  font-family: inherit;
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(91,154,169,0.4);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Inputs
+========================= */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: #ffffff;
+  color: var(--text-primary);
+  font-family: inherit;
+  transition: border-color var(--transition-normal);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-light);
+}
+
+/* =========================
+   Tables
+========================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+table th,
+table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table thead {
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+table tbody tr:nth-child(even) {
+  background: var(--bg-light);
+}
+
+table tbody tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+table tbody tr:hover {
+  background: var(--bg-medium);
+}
+
+/* =========================
+   Scrollbars globales (tous navigateurs)
+========================= */
+* {
+  scrollbar-width: thin; /* ✅ Firefox */
+  scrollbar-color: var(--primary-light) var(--bg-medium);
+}
+
+/* ✅ Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--bg-medium);
+  border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 8px;
+  transition: background var(--transition-normal);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+
+/* =========================
+   Utilitaires
+========================= */
+.hidden {
+  display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-sm {
+  gap: 8px;
+}
+
+.gap-md {
+  gap: 12px;
+}
+
+.gap-lg {
+  gap: 24px;
+}

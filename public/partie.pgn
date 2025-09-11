@@ -1,0 +1,18 @@
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2025.03.01"]
+[Round "?"]
+[White "Hikaru"]
+[Black "HanSchut"]
+[Result "1-0"]
+[TimeControl "60"]
+[WhiteElo "3302"]
+[BlackElo "2119"]
+[Termination "Hikaru won by resignation"]
+[ECO "B23"]
+[EndTime "18:57:42 GMT+0000"]
+[Link "https://www.chess.com/game/live/134594349395?username=hikaru"]
+
+1. e4 c5 2. Nc3 Nc6 3. f4 g6 4. Nf3 Bg7 5. Bb5 Nd4 6. a4 e6 7. e5 Ne7 8. Ne4
+Nef5 9. c3 Nxb5 10. axb5 d5 11. Nxc5 O-O 12. d4 h5 13. O-O b6 14. Na6 Bd7 15.
+Qe2 Qe8 16. Nc7 Bxb5 17. Nxb5 1-0

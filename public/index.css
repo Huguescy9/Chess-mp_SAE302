@@ -1,0 +1,77 @@
+/* =========================
+   Actions (barre d'outils)
+========================= */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.actions select,
+.actions button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-fast), background var(--transition-normal);
+}
+
+.actions select {
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 2px solid var(--border);
+}
+
+.actions button:hover {
+  transform: scale(1.05);
+}
+
+/* =========================
+   Section rejoindre
+========================= */
+.join-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.join-section input {
+  flex: 1;
+  min-width: 150px;
+  border: 2px solid var(--primary-light);
+}
+
+/* =========================
+   Container des cartes
+========================= */
+.cards-container {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.cards-container .card:hover {
+  transform: translateY(-3px);
+}
+
+/* =========================
+   Indicateurs de victoire
+========================= */
+.winner-white {
+  color: var(--primary-dark);
+  font-weight: bold;
+}
+
+.winner-black {
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+.winner-draw {
+  color: var(--primary-light);
+  font-style: italic;
+}

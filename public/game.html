@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Partie d'échecs</title>
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="board.css" />
+  <link rel="stylesheet" href="game.css" />
+  <link rel="stylesheet" href="chat.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div>Partie d'échecs</div>
+    <a href="index.html">Retour au Lobby</a>
+  </header>
+
+  <main class="game-layout">
+    <!-- Plateau -->
+    <div id="board" class=""></div>
+
+    <!-- Sidebar droite -->
+    <div id="sidebar">
+      <!-- Statut -->
+      <div class="card">
+        <p id="status">Chargement...</p>
+        <p id="me"></p>
+        <div id="role" class="clock white">♔ Spectateur</div>
+      </div>
+
+      <!-- Horloges -->
+      <div class="card">
+        <h3>Horloges</h3>
+        <div class="clocks-row">
+          <div class="clock white">♔ Blancs: <span id="time-white">--:--</span></div>
+          <div class="clock black">♚ Noirs: <span id="time-black">--:--</span></div>
+        </div>
+      </div>
+
+      <!-- Historique -->
+      <div class="card">
+        <h3>Historique des coups</h3>
+        <div class="history-container">
+          <table id="log">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Blancs</th>
+                <th>Noirs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- rempli dynamiquement -->
+            </tbody>
+          </table>
+        </div>
+        <button id="btn-download-pgn">Télécharger PGN</button>
+      </div>
+    </div>
+
+    <!-- Bouton pour ouvrir le chat (fixé à droite) -->
+    <button id="chat-toggle" class="chat-toggle-btn" aria-label="Ouvrir le chat">
+      <span class="chat-icon">💬</span>
+      <span class="chat-label">Chat</span>
+      <span id="chat-notification" class="chat-notification-badge hidden">0</span>
+    </button>
+
+    <!-- Panel de chat rétractable -->
+    <div id="chat-panel" class="chat-panel">
+      <div class="chat-resize-handle"></div>
+      <div class="chat-panel-header">
+        <h3>💬 Chat en direct</h3>
+        <button id="chat-close" class="chat-close-btn" aria-label="Fermer le chat">✕</button>
+      </div>
+      
+      <div id="chat-container">
+        <!-- Liste des participants -->
+        <div id="participants-list">
+          <h4>👥 Participants</h4>
+          <div id="participants"></div>
+        </div>
+
+        <!-- Messages -->
+        <div id="chat-messages"></div>
+
+        <!-- Indicateur de saisie -->
+        <div id="typing-indicator" class="hidden"></div>
+
+        <!-- Zone de saisie -->
+        <div id="chat-input-container">
+          <button id="chat-image-btn" class="chat-image-btn" title="Envoyer une image">🖼️</button>
+          <input type="file" id="chat-image-input" accept="image/*" style="display: none;">
+          
+          <!-- ✅ NOUVEAU: Bouton GIF -->
+          <div class="gif-picker-container">
+            <button id="chat-gif-btn" class="gif-btn" title="Envoyer un GIF">GIF</button>
+            <div id="gif-picker" class="gif-picker-modal hidden">
+              <div class="gif-picker-header">
+                <input 
+                  type="text" 
+                  id="gif-search" 
+                  class="gif-search-input" 
+                  placeholder="Rechercher un GIF..."
+                />
+              </div>
+              <div id="gif-grid" class="gif-grid">
+                <div class="gif-loading">Chargement...</div>
+              </div>
+            </div>
+          </div>
+          
+          <textarea id="chat-input" placeholder="Tapez votre message..." rows="1"></textarea>
+          <button id="chat-send">Envoyer</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modale vainqueur -->
+  <div id="winner-modal" class="modal hidden">
+    <div class="modal-content">
+      <p id="winner-text">Vainqueur: </p>
+    </div>
+  </div>
+
+  <!-- Librairies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

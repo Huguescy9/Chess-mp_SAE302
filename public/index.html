@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lobby - Échecs multijoueur</title>
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <header>
+    <h1>♟️ Lobby des parties</h1>
+  </header>
+
+  <main>
+    <div class="actions">
+      <select id="time-select">
+        <option value="300">5 minutes</option>
+        <option value="600" selected>10 minutes</option>
+        <option value="900">15 minutes</option>
+        <option value="1800">30 minutes</option>
+        <option value="5">Rapide</option>
+      </select>
+      <button id="btn-new">➕ Créer une nouvelle partie</button>
+      <button id="btn-refresh">🔄 Rafraîchir</button>
+      <button onclick="window.location.href='viewer.html'">Visionneuse PGN</button>
+    </div>
+
+    <div class="join-section">
+      <input id="join-id" placeholder="ID de partie à rejoindre" />
+      <button id="btn-join">Rejoindre</button>
+    </div>
+
+    <h2>Parties en cours</h2>
+    <div id="games-cards" class="cards-container"></div>
+  </main>
+
+  <script src="lobby.js"></script>
+</body>
+</html>

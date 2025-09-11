@@ -1,0 +1,181 @@
+/* =========================
+   Layout visionneuse
+========================= */
+main {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 20px;
+  align-items: stretch; /* ✅ colonnes de même hauteur */
+}
+
+@media (min-width: 900px) {
+  main {
+    flex-direction: row;
+  }
+}
+
+/* =========================
+   Colonne échiquier
+========================= */
+.board-column {
+  flex: 0 0 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* =========================
+   Compteur de coups
+========================= */
+#move-counter {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+/* =========================
+   Contrôles de navigation
+========================= */
+#controls {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+#controls button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+#controls button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(155,126,92,0.4);
+}
+
+#controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================
+   Zone PGN
+========================= */
+#pgn-zone {
+  margin-top: 16px;
+  width: 100%;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================
+   Champ texte PGN
+========================= */
+#pgn-input {
+  width: 100%;
+  min-height: 80px;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  background: #ffffff;
+  color: var(--text-primary);
+  border: 2px solid var(--border);
+  font-family: monospace;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+#pgn-input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+}
+
+/* =========================
+   Container pour les deux boutons
+========================= */
+#pgn-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* =========================
+   Boutons fichiers et charger
+========================= */
+#pgn-label,
+#btn-load {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+  color: #ffffff;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  border: none;
+}
+
+#pgn-label:hover,
+#btn-load:hover {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(91,154,169,0.4);
+}
+
+#pgn-file {
+  display: none;
+}
+
+/* =========================
+   Colonne historique
+========================= */
+.history-column {
+  flex: 1;
+  display: flex;           /* ✅ pour que la carte occupe toute la hauteur */
+  flex-direction: column;
+}
+
+.history-column .card {
+  flex: 1;                 /* ✅ prend toute la hauteur dispo */
+  overflow-y: auto;        /* ✅ scroll si trop de coups */
+  scrollbar-width: thin;   /* Firefox */
+  scrollbar-color: var(--primary-light) var(--bg-medium);
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.history-column .card::-webkit-scrollbar {
+  width: 8px;
+}
+
+.history-column .card::-webkit-scrollbar-track {
+  background: var(--bg-medium);
+  border-radius: 8px;
+}
+
+.history-column .card::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.history-column .card::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* =========================
+   Titres et accentuation
+========================= */
+.card h3 {
+  color: var(--primary);
+}
